@@ -1,0 +1,42 @@
+# Minimum required version of pre-commit
+minimum_pre_commit_version: "4.1.0"
+
+repos:
+  # Basic checks (conflicts, spaces, file issues)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0  # Check for the latest version before installing
+    hooks:
+      - id: trailing-whitespace  # Removes unnecessary spaces at the end of lines
+      - id: end-of-file-fixer  # Ensures there is a blank line at the end of the file
+      - id: check-yaml  # Validates YAML files to avoid syntax errors
+      - id: check-json
+      - id: check-merge-conflict  # Detects unresolved merge conflicts (<<<<<<< HEAD)
+      - id: detect-private-key  # Finds accidentally committed SSH private keys
+      - id: check-added-large-files  # Prevents committing very large files (>5MB)
+      - id: check-case-conflict  # Avoids issues with filenames on Windows/macOS
+
+  # Python linter and formatter (Ruff)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.3  # Check for the latest version before installing
+    hooks:
+      - id: ruff  # Runs Ruff linter to check for errors and style issues
+        args: [--fix]  # Automatically fixes detected issues
+      - id: ruff-format  # Formats Python code according to PEP 8
+
+  # Markdown file formatting (e.g., README.md)
+  - repo: https://github.com/markdownlint/markdownlint
+    rev: v0.13.0
+    hooks:
+      - id: markdownlint  # Ensures Markdown files follow best practices
+
+  # Secret detection (Detect Secrets)
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets  # Scans for accidentally committed secrets
+
+  # Jupyter Notebook cleanup (nbstripout)
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout  # Removes outputs and metadata from Jupyter notebooks before committing
